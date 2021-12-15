@@ -1,0 +1,129 @@
+<div class="page-header">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="page-title">Orders</h2>
+      </div>
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-12 text-right">
+            <div class="popover__wrapper">
+              <button type="button" class="btn theme-btn mr-3 popover__title" (click)="togglePopover()">
+                <i class="mdi mdi-filter-variant btn-icon-prepend"></i> Filter
+              </button>
+              <div class="popover__content" [ngClass]="{'active':popoverToggle}">
+                <div class="cp float-right text-Astral" (click)="clearFilter()">Clear Filter</div>
+                <h5 class="text-astral">Filter By</h5>
+                <form [formGroup]="searchForm" (ngSubmit)="onSubmitSearchForm()">
+                  <div class="page-header">
+                    <div class="search-field">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend bg-transparent"><i
+                            class="input-group-text border-0 mdi mdi-magnify"></i></div>
+                        <input type="text" class="form-control bg-transparent border-0"
+                          placeholder="Search by order id, status, name or order for" [formGroup]="searchForm"
+                          formControlName="search">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <select class="form-control" [formGroup]="searchForm" formControlName="order_for">
+                        <option value="Appointment,Product,Service">All</option>
+                        <option value="Appointment">Appointment</option>
+                        <option value="Product">Product</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="from_date">From Date</label>
+                      <input [matDatepicker]="myDatepickerSearchFrom" class="form-control" placeholder="From Date"
+                        [formGroup]="searchForm" formControlName="from_date">
+                      <mat-datepicker-toggle [for]="myDatepickerSearchFrom" class="mat-dt-pic">
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #myDatepickerSearchFrom></mat-datepicker>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="to_date">To Date</label>
+                      <input [matDatepicker]="myDatepickerSearchTo" class="form-control" placeholder="To Date"
+                        [formGroup]="searchForm" formControlName="to_date">
+                      <mat-datepicker-toggle [for]="myDatepickerSearchTo" class="mat-dt-pic"></mat-datepicker-toggle>
+                      <mat-datepicker #myDatepickerSearchTo></mat-datepicker>
+                    </div>
+                  </div>
+                  <div class="apply-cancel">
+                    <button type="submit" class="btn theme-btn">Apply</button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-brown" (click)="togglePopover()">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body p-2">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Customer Name</th>
+              <th>Order Id</th>
+              <th>Order For</th>
+              <th>Doctor</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Payment Status</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody [ngClass]="{'csspinner load1':orderListingLoader}">
+            <ng-template [ngIf]="totalItems > 0">
+              <tr
+                *ngFor="let order of orders | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }; let i = index">
+                <th>{{i+1}}</th>
+                <td>{{order.user_name}}</td>
+                <td>{{order.order_id}}</td>
+                <td>{{order.order_for}}</td>
+                <td>{{order.doctor_name}}</td>
+                <td>{{order.order_date_formatted}}</td>
+                <td>{{order.order_amount_formatted}}</td>
+                <td>{{order.payment_status}}</td>
+                <td>{{order.status}}</td>
+                <td>
+                  <div class="icon-block">
+                    <a class="cp" title="Order detail" routerLink="/orders/detail/{{order.order_id}}"><i
+                        class="mdi mdi-eye b-gry" aria-hidden="true"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template [ngIf]="totalItems == 0">
+              <tr>
+                <td colspan="9">
+                  <div class="alert alert-danger text-center">No orders found</div>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer p-2">
+        <div class="row" *ngIf="orders.length">
+          <div class="col-sm-12 mt-3 text-center">
+            <pagination-controls (pageChange)="pageChanged($event)" autoHide="true" responsive="true">>
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

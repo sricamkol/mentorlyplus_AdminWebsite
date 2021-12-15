@@ -1,0 +1,142 @@
+
+<div class="row mb-3">
+  <div class="col-sm-3">
+    <h2 class="page-title">
+      Create Healthfeed/Article
+    </h2>
+  </div>
+</div>
+
+<form [formGroup]="addForm" (ngSubmit)="onSubmitAddForm()" #ngmyform="ngForm"[ngClass]="{'csspinner load1':addFormLoader}">
+  <div class="form-group">
+    <label for="title">Title <span class="symbol required"></span></label>
+    <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+    <div class="invalid-feedback" *ngIf="addForm.controls.title.invalid &&
+    (addForm.controls.title.dirty || addForm.controls.title.touched || ngmyform.submitted)">
+      <div *ngIf="addForm.controls.title.errors.required">This field is required.</div>
+      <div *ngIf="addForm.controls.title.errors.minlength">Minimum 2 characters required.</div>
+      <div *ngIf="addForm.controls.title.errors.maxlength">Maximum 150 characters allowed.</div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="category_id">Category <span class="symbol required"></span></label>
+      <select formControlName="category_id" class="form-control" id="category_id" (change)="selectSubCat($event.target.value)">
+        <option value="">Select Category</option>
+        <option *ngFor="let category of articleCategories" [value]="category.category_id">
+          {{category.category_name}} </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="addForm.controls.category_id.invalid &&
+      (addForm.controls.category_id.dirty || addForm.controls.category_id.touched || ngmyform.submitted)">
+        <div *ngIf="addForm.controls.category_id.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="sub_category_id">Sub Category <span class="symbol required"></span></label>
+      <select formControlName="sub_category_id" class="form-control" id="sub_category_id">
+        <option value="">Select Sub Category</option>
+        <option *ngFor="let subcategory of articleSubCategories" [value]="subcategory.category_id">
+          {{subcategory.category_name}} </option>
+      </select>
+      <div class="invalid-feedback"
+        *ngIf="addForm.controls.sub_category_id.invalid &&
+      (addForm.controls.sub_category_id.dirty || addForm.controls.sub_category_id.touched || ngmyform.submitted)">
+        <div *ngIf="addForm.controls.sub_category_id.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="status">Status <span class="symbol required"></span></label>
+      <select formControlName="status" class="form-control" id="status">
+        <option value="Published">Publish</option>
+        <option value="Unpublished">Unpublish</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="addForm.controls.status.invalid &&
+        (addForm.controls.status.dirty || addForm.controls.status.touched || ngmyform.submitted)"
+      >
+        <div *ngIf="addForm.controls.status.errors.required">This field is required.</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="customFile">Choose Image
+        <div class="text-danger">
+          <div><small>Only JPG or PNG files allowed</small></div>
+          <div><small>File size should not be greater than 2 MB</small></div>
+        </div>
+      </label>
+      <div class="custom-file">
+        <input #ngfileInput type="file" (change)="onFileInput($event)" accept="image/*"
+          class="custom-file-input">
+        <label class="custom-file-label" for="customFile">Choose Image</label>
+      </div>
+      <div class="invalid-feedback"
+        *ngIf="addForm.controls.image.invalid &&
+      (addForm.controls.image.dirty || addForm.controls.image.touched || ngmyform.submitted)">
+        <div *ngIf="addForm.controls.image.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="form-group col-md-6" *ngIf="imageSrc">
+      <div class="img-item">
+        <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon img-delete">
+          <i class="mdi mdi-delete mdi-18px" (click)="clearArticleImage()"></i>
+        </button>
+        <img [src]="imageSrc" alt="image" class="img-ele img-fluid">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="content">Content <span class="symbol required"></span></label>
+    <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+    <div class="invalid-feedback" *ngIf="addForm.controls.content.invalid &&
+      (addForm.controls.content.dirty || addForm.controls.content.touched || ngmyform.submitted)"
+    >
+      <div *ngIf="addForm.controls.content.errors.required">This field is required.</div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-{{this.userType == 'Super Admin' ? 9 : 12 }}">
+      <label for="tags">Tags <small>(Press enter to add new tag)</small></label>
+      <ng-select2 [data]="select2Data" formControlName="tags" [options]="select2Options"
+        [placeholder]="'Select Or Enter Tags'">
+      </ng-select2>
+    </div>
+    <div class="form-group col-md-3" *ngIf="this.userType == 'Super Admin'">
+      <label for="category_id">Is Approved <span class="symbol required"></span></label>
+      <select formControlName="is_approved" class="form-control" id="is_approved">
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Decline">Decline</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="addForm.controls.is_approved.invalid &&
+        (addForm.controls.is_approved.dirty || addForm.controls.is_approved.touched || ngmyform.submitted)">
+        <div *ngIf="addForm.controls.is_approved.errors.required">This field is required.</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="meta_tag">Meta Tag</label>
+    <input type="text" class="form-control" id="meta_tag" placeholder="Enter Meta Tag" formControlName="meta_tag">
+    <div class="invalid-feedback" *ngIf="addForm.controls.meta_tag.invalid &&
+      (addForm.controls.meta_tag.dirty || addForm.controls.meta_tag.touched || ngmyform.submitted)"
+    >
+      <div *ngIf="addForm.controls.meta_tag.errors.maxlength">Maximum 100 Characters allowed.</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="meta_description">Meta Description</label>
+    <textarea type="text" class="form-control" id="meta_description" placeholder="Enter Meta Description" formControlName="meta_description"></textarea>
+    <div class="invalid-feedback" *ngIf="addForm.controls.meta_description.invalid &&
+      (addForm.controls.meta_description.dirty || addForm.controls.meta_description.touched || ngmyform.submitted)"
+    >
+      <div *ngIf="addForm.controls.meta_description.errors.maxlength">Maximum 250 characters allowed.</div>
+    </div>
+  </div>
+  <div class="form-group text-center">
+    <button type="submit" [disabled]="addFormLoader" class="btn theme-btn mx-auto">
+      <span [ngClass]="{'spinner-border spinner-border-sm':addFormLoader}"></span> Save
+    </button>
+  </div>
+</form>
+
+

@@ -1,0 +1,102 @@
+<div class="card">
+  <div class="card-body p-2" [ngClass]="{'csspinner load1':documentFormLoader}">
+    <div class="card-title"><h3>Documents</h3></div>
+    <form>
+      <ng-container *ngFor="let doc of requiredDocs">
+        <div class="form-row border-bottom p-2 mb-3">
+          <div class="form-group col-md-8 my-auto">
+            <label>
+              <i *ngIf="doc.verification_status == 'Verified'" class="mdi mdi-check-decagram text-success mdi-18px"
+                matTooltipClass="primary-tooltip" matTooltip="Document is verified"></i> {{doc.name}}
+              <span *ngIf="doc.uploaded == 'No' && doc.required == 'Yes'" class="symbol required"></span>
+              <div *ngIf="userType != 'Super Admin'"><small class="text-danger">({{doc.description}})</small></div>
+            </label>
+            <div class="custom-file" *ngIf="doc.data.verification_status != 'Verified' && userType != 'Super Admin'">
+              <input type="file" (change)="onChangeDocument($event, doc.key)" accept="image/*" class="custom-file-input">
+              <label class="custom-file-label" for="customFile">Choose {{doc.name}}</label>
+            </div>
+            <div class="mt-2">
+              <span class="ml-2" *ngIf="doc.uploaded == 'Yes'">Verification Status: <label class="badge" [ngClass]="{'badge-info':doc.verification_status =='Pending','badge-success':doc.verification_status =='Verified','badge-danger':doc.verification_status =='Rejected'}">{{doc.verification_status}}</label></span>
+              <a *ngIf="doc.uploaded == 'Yes' && doc.data.download_url" [href]="doc.data.download_url" class="cp ml-2">
+                <button type="button" class="btn btn-inverse-dark btn-icon">
+                  <i class="mdi mdi-download mdi-18px" matTooltipClass="primary-tooltip" matTooltip="Download"></i>
+                </button>
+              </a>
+              <button type="button" *ngIf="doc.uploaded == 'Yes' && userType != 'Super Admin' && doc.verification_status == 'Pending'"
+                class="cp btn btn-inverse-dark btn-icon text-danger ml-2" (click)="deleteDocument(doc.data.document_id)"
+              >
+                <i *ngIf="doc.verification_status!='Verified'" class="mdi mdi-delete mdi-18px" matTooltipClass="primary-tooltip" matTooltip="Delete"></i>
+              </button>
+              <button type="button" *ngIf="doc.uploaded == 'Yes' && userType == 'Super Admin' && doc.verification_status == 'Pending'"
+                class="cp btn-success ml-2" (click)="updateVerification(doc.data.document_id, 'Verified')"
+              >
+                Verify <i class="mdi mdi-check mdi-18px" matTooltipClass="primary-tooltip" matTooltip="Verify this doc"></i>
+              </button>
+              <button type="button" *ngIf="doc.uploaded == 'Yes' && userType == 'Super Admin' && doc.verification_status == 'Pending'"
+                class="cp btn-danger ml-2" (click)="updateVerification(doc.data.document_id, 'Rejected')"
+              >
+                Reject <i class="mdi mdi-close mdi-18px" matTooltipClass="primary-tooltip" matTooltip="Reject this doc"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group col-md-4" *ngIf="doc.data.file_name">
+            <div class="form-row mt-2 mb-2">
+              <div class="border p-1 ml-2 mr-2">
+                <a data-fancybox [attr.data-caption]="doc.name" [href]="doc.data.file_url">
+                  <img [src]="doc.data.file_url" alt="" class="img-fluid" style="height: 150px; width: 150px;">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade actionModal" id="rejectDocumentFormModal" tabindex="-1" role="dialog" aria-labelledby="rejectDocumentFormModal"
+  aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content bg-white" [ngClass]="{'csspinner load1':rejectDocumentFormLoader}">
+      <div class="modal-header">
+        <h4 class="modal-title">Reject Document</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="rejectDocumentForm" (ngSubmit)="submitRejectDocumentForm()" #ngrejectdocumentform="ngForm">
+        <div class="modal-body">
+          <div class="container">
+            <div class="form-group">
+              <p>Please provide the reason for rejected, this will be emailed to user</p>
+            </div>
+            <div class="form-group">
+              <label>Reason <span class="symbol required"></span></label>
+              <textarea class="form-control" formControlName="reason"></textarea>
+              <div class="invalid-feedback" *ngIf="rejectDocumentForm.controls.reason.invalid &&
+                (rejectDocumentForm.controls.reason.dirty || rejectDocumentForm.controls.reason.touched || ngrejectdocumentform.submitted)"
+              >
+                <div *ngIf="rejectDocumentForm.controls.reason.errors.required">This field is required.</div>
+                <div *ngIf="rejectDocumentForm.controls.reason.errors.maxlength">Maximum 250 characters allowed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <div class="container">
+            <div class="form-row">
+              <div class="form-group col-md-6 my-auto text-left">
+                Fields marked with <span class="symbol required"></span> is required
+              </div>
+              <div class="form-group col-md-6 text-right">
+                <button type="submit" [disabled]="rejectDocumentFormLoader" class="btn theme-btn mx-auto">
+                  <span [ngClass]="{'spinner-border spinner-border-sm':rejectDocumentFormLoader}"></span> Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

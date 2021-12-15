@@ -1,0 +1,88 @@
+<div class="page-header">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-6">
+        <h3 class="page-title">Patients</h3>
+      </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-12 text-right">
+            <div class="search-field">
+              <form class="d-flex align-items-center">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend bg-transparent">
+                    <i class="input-group-text border-0 mdi mdi-magnify"></i>
+                  </div>
+                  <input type="text" #searchTerm class="form-control bg-transparent border-0"
+                    placeholder="Search By name, email or mobile number">
+                  <div class="input-group-append bg-transparent" *ngIf="search.length > 0">
+                    <i class="cp input-group-text border-0 mr-3" title="Clear search" (click)="clearSearch()">×</i>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body p-2">
+        <table class="table table-hover">
+          <thead>
+            <tr class="text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th *ngIf="userType=='Super Admin'">Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody [ngClass]="{'csspinner load1':dataLoader}">
+            <ng-container *ngIf="users">
+              <tr class="text-center" *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }; let i = index;"
+              >
+                <td>{{i+1}}</td>
+                <td>{{user.full_name}}</td>
+                <td>{{user.user_id}}</td>
+                <td>{{user.email}}<br><small *ngIf="userType=='Super Admin'">({{user.email_verification_status}})</small></td>
+                <td>{{user.mobile_number}}</td>
+                <td *ngIf="userType=='Super Admin'">{{user.status}}</td>
+                <td>
+                  <div class="icon-block">
+                    <a class="cp" *ngIf="userType=='Super Admin'" matTooltip="Update" matTooltipClass="primary-tooltip"
+                      routerLink="/patients/update/{{user.user_alias}}"
+                    >
+                      <i class="mdi mdi-pencil b-gry"></i></a>
+                    <a class="cp" *ngIf="userType!='Super Admin'" matTooltip="View" matTooltipClass="primary-tooltip"
+                      routerLink="/patients/detail/{{user.user_alias}}"
+                    >
+                      <i class="mdi mdi-eye bg-info"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="!users">
+              <tr>
+                <td colspan="7"><div class="alert alert-danger text-center">No data found</div></td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer p-2">
+        <div class="row" *ngIf="users">
+          <div class="col-sm-12 mt-3 text-center">
+            <pagination-controls (pageChange)="pageChanged($event)" autoHide="true" responsive="true">></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

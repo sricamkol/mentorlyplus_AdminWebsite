@@ -1,0 +1,73 @@
+
+<div class="row" *ngIf="userType == 'Patient'">
+  <div class="col-sm-12 py-2">
+    <div class="card-body p-2">
+      <a [href]="site_url+'/doctors'" class="btn btn-blue mr-2 btn-sm">
+        Book Appointment
+      </a>
+      <a [href]="site_url+'/consult/consult-now'" class="btn btn-blue mr-2 btn-sm">
+        Consult Now
+      </a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 stretch-card">
+    <div class="card bg-gradient-info card-img-holder text-white">
+      <div class="card-body p-2">
+        <h4 class="font-weight-normal mb-3">Upcoming Appointment <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i></h4>
+        <h2>{{appointments.Confirmed}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 stretch-card">
+    <div class="card bg-gradient-success card-img-holder text-white">
+      <div class="card-body p-2">
+        <h4 class="font-weight-normal mb-3">Completed Appointment <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i></h4>
+        <h2>{{appointments.Completed}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 stretch-card">
+    <div class="card bg-gradient-danger card-img-holder text-white">
+      <div class="card-body p-2">
+        <h4 class="font-weight-normal mb-3">Canceled Appointment <i class="mdi mdi-chart-line mdi-24px float-right"></i></h4>
+        <h2>{{appointments.Cancelled}}</h2>
+       </div>
+    </div>
+  </div>
+  <div class="col-md-3 stretch-card">
+    <div class="card bg-gradient-warning card-img-holder text-white">
+      <div class="card-body p-2">
+        <h4 class="font-weight-normal mb-3">Total Appointment <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i></h4>
+        <h2>{{appointments.Total}}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header"></div>
+      <div class="card-body p-2">
+        <app-appointment-calendar calendarDefaultView="dayGridMonth"></app-appointment-calendar>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="userType == 'Super Admin'">
+  <div class="col-12 stretch-card">
+    <div class="card">
+      <div class="card-body p-2">
+        <div class="card-header">
+          <h4 class="card-title">Registered Users
+            <select (change)="getData($event)" style="font-size: small;">
+              <option *ngFor="let year of years" [value]="year" [selected]="year===currentYear">{{year}}</option>
+            </select>
+          </h4>
+        </div>
+        <canvas baseChart [chartType]="'line'" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

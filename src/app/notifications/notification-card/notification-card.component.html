@@ -1,0 +1,43 @@
+<div class="notification py-2">
+    <ng-template [ngIf]="notifications.length == 0">
+        <div class="col-sm-12">
+            <div class="pacient-list note-list" *ngFor="let i of [1,2,3,4]">
+                <content-loader
+                    speed=2
+                    width=1090
+                    height=80
+                    primaryColor="#dfdfdf"
+                    secondaryColor="#b2b2b2"
+                >
+                    <svg:rect x="105" y="28" rx="3" ry="3" width="511" height="13" />
+                    <svg:circle cx="40" cy="44" r="26" />
+                    <svg:rect x="105" y="49" rx="3" ry="3" width="83" height="12" />
+                    <svg:rect x="899" y="39" rx="3" ry="3" width="83" height="12" />
+                </content-loader>
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="col-sm-12" *ngFor="let notification of notifications">
+        <div class="pacient-list note-list">
+            <div class="row">
+                <div class="col-sm-1">
+                    <div class="asign-d-profile mx-auto mr-3">
+                        <a href=""><img [src]="notification.image" class="img-fluid"> </a>
+                    </div>
+                </div>
+                <div class="col-sm-9 text-left mt-1">
+                    <p class="mb-0 "> {{notification.activity}}</p>
+                    <!-- <strong>Marry Smith</strong> Cancelled Appointment with Dr. JOhn Doe For
+                        <strong>Nov. 26 @ 1.00pm </strong></p> -->
+                    <span>{{notification.time}}</span>
+                </div>
+                <div class="col-sm-2 mt-3">
+                    <div class="d-flex align-items-center">
+                        <a  routerLink="/{{notification.url}}" class="cp text-astral mr-2">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

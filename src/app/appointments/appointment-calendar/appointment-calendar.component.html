@@ -1,0 +1,102 @@
+<div class="page-header">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-4">
+          <h2 class="page-title">Calender</h2>
+        </div>
+        <div class="col-sm-8 my-auto text-right">
+          <label class="badge badge-info bg-gradient-info border-0 mb-0">Upcoming</label>
+          <label class="badge badge-success bg-gradient-success border-0 mb-0">Completed</label>
+          <label class="badge badge-danger bg-gradient-danger border-0 mb-0">Canceled</label>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="col-sm-12 mt-3" [ngClass]="{'csspinner load1':showAppointmentCalendarLoader}">
+  <full-calendar #calendar class="appointment-calendar"
+    [eventLimit]="5"
+    [defaultView]="calendarDefaultView"
+    [plugins]="calendarPlugins"
+    [events]="userAppointmentEvents"
+    [header]="headerToolbar"
+    (eventClick)="onViewAppointmentDetail($event)"
+    contentHeight="auto">
+  </full-calendar>
+</div>
+
+<app-detail [appointmentDetail]="appointmentDetail" [openModalFlag]="openModalFlag"></app-detail>
+
+<!-- <div class="modal fade actionModal" id="viewAppointment" tabindex="-1" role="dialog" aria-labelledby="viewAppointment"
+  aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content edit-profile">
+      <div class="modal-header">
+        <h4 class="modal-title">Appointment ID {{appointmentDetail.appointment_id}}: Details </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <img [src]="appointmentDetail.patient_image_url" class="img-fluid rounded-circle" width="100">
+              </div>
+              <div class="col-md-5 my-auto">
+                <h4 class="text-pre-wrap mb-1">{{appointmentDetail.patient_name}}</h4>
+                <p class="text-pre-wrap mb-1">{{appointmentDetail.last_visit}}</p>
+                <p class="text-pre-wrap mb-1" *ngIf="appointmentDetail.appointment_for=='Family'">Booked By:
+                  {{appointmentDetail.username}}</p>
+                <p class="text-pre-wrap mb-1">Mobile Number: {{appointmentDetail.patient_mobile}}</p>
+              </div>
+              <div class="col-md-5 text-right my-auto">
+                <a class="view-time text-gray" style="background: #f2f2f2;">{{appointmentDetail.ap_time_formatted}}</a>
+                /
+                <a class="view-time text-gray"
+                  style="background: #f2f2f2;">{{appointmentDetail.appointment_date_formatted}}</a>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <h3>Insurances</h3>
+              </div>
+              <ng-template [ngIf]="appointmentDetail.user_insurance.length==0">
+                <div class="col-md-4">
+                  <div class="alert alert-danger"> No Insurances</div>
+                </div>
+              </ng-template>
+              <ng-template [ngIf]="appointmentDetail.user_insurance.length>0">
+                <div class="col-md-12 mb-2" *ngFor="let insurance of appointmentDetail.user_insurance">
+                  <div class="media">
+                    <img class="align-self-center mr-3" width="50" [src]="insurance.provider_image"
+                      [alt]="insurance.provider_name">
+                    <div class="media-body">
+                      <h5 class="mt-0 mb-1">{{insurance.provider_name}}</h5>
+                      {{insurance.insurance_type}}
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div class="row mt-3">
+              <h3>Notes</h3>
+              <div class="col-md-12">
+                <p> {{appointmentDetail.appointment_note}} </p>
+              </div>
+            </div>
+            <div class="row mt-3" *ngIf="appointmentDetail.reschedule_by_name!=''">
+              <h3>Rescheduled</h3>
+              <div class="col-md-12">
+                Rescheduled By: {{appointmentDetail.reschedule_by_name}} <br>
+                Reason: {{appointmentDetail.reschedule_reason}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+
+        </div>
+    </div>
+  </div>
+</div> -->

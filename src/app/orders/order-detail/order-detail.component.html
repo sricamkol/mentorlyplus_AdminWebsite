@@ -1,0 +1,145 @@
+<div class="container" [ngClass]="{'csspinner load1':loader}">
+  <div class="row" *ngIf="dataReady">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">
+            <i class="mdi mdi-cart"></i> Order Details
+            <button (click)="download_invoice(orderDetail.order_id)" class="btn btn-primary p-1"
+              title="Download Invoice"><i class="mdi mdi-download"></i></button>
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b># ID:</b> {{orderDetail.order_id}}</li>
+          <li class="list-group-item"><b>Order For:</b> {{orderDetail.order_for}}</li>
+          <li class="list-group-item"><b>Doctor:</b> {{orderDetail.doctor_name}}</li>
+          <li class="list-group-item"><b>Date:</b> {{orderDetail.order_date_formatted}}</li>
+          <li class="list-group-item"><b>Payment Status:</b> {{orderDetail.payment_status}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"><i class="mdi mdi-account"></i>Customer Details</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>Name:</b> {{orderDetail.user_name}}</li>
+          <li class="list-group-item"><b>Email:</b> {{orderDetail.user_email}}</li>
+          <li class="list-group-item"><b>Mobile:</b> {{orderDetail.user_mobile_number}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-12 mt-3">
+      <div class="card">
+        <div class="card-body p-2">
+          <!-- <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 50%;" class="text-left">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{orderDetail.address[0].address}}</td>
+              </tr>
+            </tbody>
+          </table> -->
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="text-left"><b>Item</b></th>
+                <th class="text-right"><b>Quantity</b></th>
+                <th class="text-right"><b>Price</b></th>
+                <th class="text-right"><b>Total</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderDetail.items">
+                <td class="text-left text-pre-wrap">{{item.item_name}}</td>
+                <td class="text-right">{{item.item_qty}}</td>
+                <td class="text-right">{{item.item_amount_formatted}}</td>
+                <td class="text-right">{{item.item_subtotal_formatted}}</td>
+              </tr>
+              <tr *ngFor="let total of orderDetail.total">
+                <td colspan="3" class="text-right">{{total.title}}</td>
+                <td class="text-right">{{total.value_formatted}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="dataReady">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"><i class="mdi mdi-comment-outline"></i> Order History</h5>
+        </div>
+        <div class="card-body p-2">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <td class="text-left">Date</td>
+                <td class="text-left">Comment</td>
+                <td class="text-left">Status</td>
+                <td class="text-left">Customer Notified</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let orderHistory of orderDetail.status_history">
+                <td class="text-left">{{orderHistory.created_date | date:'LL MMM yyyy hh:mm aa'}}</td>
+                <td class="text-left">{{orderHistory.message}}</td>
+                <td class="text-left">{{orderHistory.status}}</td>
+                <td class="text-left">{{orderHistory.notified}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="(orderDetail.order_for=='Product' || orderDetail.order_for=='Transfer')"
+      [ngClass]="{'csspinner load1':addFormAction}">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Add Order History</h5>
+        </div>
+        <div class="card-body p-2">
+          <form [formGroup]="addForm" (ngSubmit)="onSubmitAddForm()" #myform="ngForm">
+            <div class="form-group">
+              <label for="inputState">Update Status</label>
+              <select formControlName="order_status" class="form-control" id="order_status">
+                <option value="">Select Status</option>
+                <option *ngFor="let status of this.statusData" [value]="status.status_code">{{status.status}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input ml-0" type="checkbox" id="notify_customer"
+                  formControlName="notify_customer">
+                <label class="form-check-label" for="notify_customer">Notify Customer</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="input-comment">Comment</label>
+              <textarea class="form-control" id="comment" rows="8" [formGroup]="addForm"
+                formControlName="comment"></textarea>
+              <div class="invalid-feedback"
+                *ngIf="addForm.controls.comment.invalid && (addForm.controls.comment.dirty || addForm.controls.comment.touched || myform.submitted)">
+                <div *ngIf="addForm.controls.comment.errors.required">This field is required.</div>
+                <div *ngIf="addForm.controls.comment.errors.maxlength">Maximum 1000 characters allowed.</div>
+              </div>
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" [disabled]="addFormAction" class="btn btn-primary"> <span
+                  [ngClass]="{'spinner-border spinner-border-sm':addFormAction}"></span>Add History</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

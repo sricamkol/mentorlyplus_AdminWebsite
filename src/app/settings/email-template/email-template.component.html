@@ -1,0 +1,227 @@
+<div class="page-header">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-9">
+        <h2 class="page-title">Email Template </h2>
+      </div>
+      <div class="col-sm-3 text-right">
+        <button type="button" class="btn theme-btn" (click)="openForm()" data-toggle="modal"
+          data-target="#createEmailTemplate">
+          <i class="mdi mdi-plus-circle mr-1"></i> Add Template
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body p-2">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Template Name</th>
+              <th>Subject</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of templateData; let i = index">
+              <th>{{i+1}}</th>
+              <td>{{item.template_code}}</td>
+              <td>{{item.subject}}</td>
+              <td>
+                <div class="icon-block">
+                  <a class="cp" (click)="onClickEditBtn(item.template_id)"><i class="mdi mdi-pencil b-gry"
+                      aria-hidden="true"></i></a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade actionModal" id="createEmailTemplate" tabindex="-1" role="dialog" aria-labelledby="createEmailTemplate" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content edit-profile" [ngClass]="{'csspinner load1':addFormAction}">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Email Template</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="addFormTemp" (ngSubmit)="onSubmitAddForm()" #myform="ngForm">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="e_temp_name">Template Name <span class="symbol required"></span></label>
+                  <input type="text" class="form-control" id="e_temp_name" placeholder="Enter Name"
+                    [formGroup]="addFormTemp" formControlName="e_temp_name">
+                  <div
+                    *ngIf="addFormTemp.controls.e_temp_name.invalid && (addFormTemp.controls.e_temp_name.dirty || addFormTemp.controls.e_temp_name.touched || myform.submitted)"
+                    class="invalid-feedback">
+                    <div *ngIf="addFormTemp.controls.e_temp_name.errors.required">
+                      This field is required.
+                    </div>
+                    <div *ngIf="addFormTemp.controls.e_temp_name.errors.minlength">
+                      Minimum 2 characters required.
+                    </div>
+                    <div *ngIf="addFormTemp.controls.e_temp_name.errors.maxlength">
+                      Maximum 200 characters allowed.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="e_temp_subject">Template Subject <span class="symbol required"></span></label>
+                  <input type="text" class="form-control" id="e_temp_subject" placeholder="Enter Subject"
+                    [formGroup]="addFormTemp" formControlName="e_temp_subject">
+                  <div *ngIf="addFormTemp.controls.e_temp_subject.invalid &&
+									(addFormTemp.controls.e_temp_subject.dirty ||
+									addFormTemp.controls.e_temp_subject.touched || myform.submitted)" class="invalid-feedback">
+                    <div *ngIf="addFormTemp.controls.e_temp_subject.errors.required">
+                      This field is required.
+                    </div>
+                    <div *ngIf="addFormTemp.controls.e_temp_subject.errors.required">
+                      Minimum 2 characters required.
+                    </div>
+                    <div *ngIf="addFormTemp.controls.e_temp_subject.errors.required">
+                      Maximum 200 characters allowed.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="e_temp_body">Template Body <span class="symbol required"></span></label>
+                  <angular-editor formControlName="e_temp_body" [config]="editorConfig"></angular-editor>
+                  <div *ngIf="addFormTemp.controls.e_temp_body.invalid &&
+										(addFormTemp.controls.e_temp_body.dirty ||
+										addFormTemp.controls.e_temp_body.touched || myform.submitted)" class="invalid-feedback">
+                    <div *ngIf="addFormTemp.controls.e_temp_body.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="e_temp_status">Template Status</label>
+                  <select formControlName="e_temp_status" class="form-control" id="e_temp_status"
+                    [formGroup]="addFormTemp">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                  <div *ngIf="addFormTemp.controls.e_temp_status.invalid &&
+										(addFormTemp.controls.e_temp_status.dirty ||
+										addFormTemp.controls.e_temp_status.touched || myform.submitted)" class="invalid-feedback">
+                    <div *ngIf="addFormTemp.controls.e_temp_status.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="submit" [disabled]="addFormAction" class="btn theme-btn mx-auto">
+            <span [ngClass]="{'spinner-border spinner-border-sm':addFormAction}"></span> Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade actionModal" id="updateEmailTemplate" tabindex="-1" role="dialog" aria-labelledby="updateEmailTemplate" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content edit-profile" [ngClass]="{'csspinner load1':updateFormAction}">
+      <div class="modal-header">
+        <h4 class="modal-title">Update Email Template</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="updateForm" (ngSubmit)="onSubmitUpdateForm()" #myform3="ngForm">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="e_temp_name_update">Template Name <span class="symbol required"></span></label>
+                  <input type="text" class="form-control" id="e_temp_name_update" placeholder="Enter Name"
+                    [formGroup]="updateForm" formControlName="e_temp_name_update">
+                  <div
+                    *ngIf="updateForm.controls.e_temp_name_update.invalid && (updateForm.controls.e_temp_name_update.dirty || updateForm.controls.e_temp_name_update.touched || myform3.submitted)"
+                    class="invalid-feedback">
+                    <div *ngIf="updateForm.controls.e_temp_name_update.errors.required">
+                      This field is required.
+                    </div>
+                    <div *ngIf="updateForm.controls.e_temp_name_update.errors.minlength">
+                      Minimum 2 characters required.
+                    </div>
+                    <div *ngIf="updateForm.controls.e_temp_name_update.errors.maxlength">
+                      Maximum 200 characters allowed.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="e_temp_subject_update">Template Subject <span class="symbol required"></span></label>
+                  <input type="text" class="form-control" id="e_temp_subject_update" placeholder="Enter Subject"
+                    [formGroup]="updateForm" formControlName="e_temp_subject_update">
+                  <div class="invalid-feedback" *ngIf="updateForm.controls.e_temp_subject_update.invalid &&
+                    (updateForm.controls.e_temp_subject_update.dirty || updateForm.controls.e_temp_subject_update.touched || myform3.submitted)"
+                  >
+                    <div *ngIf="updateForm.controls.e_temp_subject_update.errors.required">
+                      This field is required.
+                    </div>
+                    <div *ngIf="updateForm.controls.e_temp_subject_update.errors.required">
+                      Minimum 2 characters required.
+                    </div>
+                    <div *ngIf="updateForm.controls.e_temp_subject_update.errors.required">
+                      Maximum 200 characters allowed.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="e_temp_body_update">Template Body <span class="symbol required"></span></label>
+                  <angular-editor formControlName="e_temp_body_update" [config]="editorConfig"></angular-editor>
+                  <div class="invalid-feedback"
+                    *ngIf="updateForm.controls.e_temp_body_update.invalid && (updateForm.controls.e_temp_body_update.dirty || updateForm.controls.e_temp_body_update.touched || myform.submitted)">
+                    <div *ngIf="updateForm.controls.e_temp_body_update.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="e_temp_status_update">Template Status <span class="symbol required"></span></label>
+                  <select formControlName="e_temp_status_update" class="form-control" id="e_temp_status_update"
+                    [formGroup]="updateForm">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                  <div *ngIf="updateForm.controls.e_temp_status_update.invalid &&
+										(updateForm.controls.e_temp_status_update.dirty ||
+										updateForm.controls.e_temp_status_update.touched || myform3.submitted)" class="invalid-feedback">
+                    <div *ngIf="updateForm.controls.e_temp_status_update.errors.required">
+                      This field is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="submit" [disabled]="updateFormAction" class="btn theme-btn mx-auto">
+            <span [ngClass]="{'spinner-border spinner-border-sm':updateFormAction}"></span> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

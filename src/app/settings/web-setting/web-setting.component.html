@@ -1,0 +1,164 @@
+<div class="page-header">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-9">
+        <h2 class="page-title">Web Settings</h2>
+      </div>
+      <div class="col-sm-3 text-right">
+        <button type="button" class="btn theme-btn" (click)="openAddForm()">
+          <i class="mdi mdi-plus-circle mr-1"></i> Add Settings
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body p-2">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Value</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of settings; let i = index">
+              <th>{{i+1}}</th>
+              <td>{{item.name | uppercase}}</td>
+              <td class="text-pre-wrap text-break-all">{{item.value}}</td>
+              <td class="text-pre-wrap text-break-all">{{item.description}}</td>
+              <td>
+                <div class="icon-block text-right">
+                  <a class="cp" (click)="openUpdateForm(item.setting_id,i)">
+                    <i class="mdi mdi-pencil b-gry" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade actionModal" id="addFormModal" tabindex="-1" role="dialog" aria-labelledby="addFormModal" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content edit-profile" [ngClass]="{'csspinner load1':addFormAction}">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Setting</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="addForm" (ngSubmit)="onSubmitAddForm()" #ngaddform="ngForm">
+        <div class="modal-body">
+          <div class="container">
+            <div class="form-group">
+              <label>Name <span class="symbol required"></span></label>
+              <input type="text" class="form-control" placeholder="Enter Name" [formGroup]="addForm"
+                formControlName="name">
+              <div class="invalid-feedback" *ngIf="addForm.controls.name.invalid &&
+                (addForm.controls.name.dirty || addForm.controls.name.touched || ngaddform.submitted)"
+              >
+                <div *ngIf="addForm.controls.name.errors.required">This field is required.</div>
+                <div *ngIf="addForm.controls.name.errors.maxlength">Maximum 50 characters allowed.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Value <span class="symbol required"></span></label>
+              <input type="text" class="form-control" placeholder="Enter Value"
+                [formGroup]="addForm" formControlName="value">
+              <div class="invalid-feedback" *ngIf="addForm.controls.value.invalid &&
+                (addForm.controls.value.dirty || addForm.controls.value.touched || ngaddform.submitted)"
+              >
+                <div *ngIf="addForm.controls.value.errors.required">This field is required.</div>
+                <div *ngIf="addForm.controls.value.errors.maxlength">Maximum 250 characters allowed.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea type="text" class="form-control" placeholder="Enter Description"
+                [formGroup]="addForm" formControlName="description"></textarea>
+              <div class="invalid-feedback" *ngIf="addForm.controls.description.invalid &&
+                (addForm.controls.description.dirty || addForm.controls.description.touched || ngaddform.submitted)"
+              >
+                <div *ngIf="addForm.controls.description.errors.maxlength">Maximum 250 characters allowed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="submit" [disabled]="addFormAction" class="btn theme-btn mx-auto">
+            <span [ngClass]="{'spinner-border spinner-border-sm':addFormAction}"></span> Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade actionModal" id="updateFormModal" tabindex="-1" role="dialog" aria-labelledby="updateFormModal" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content edit-profile" [ngClass]="{'csspinner load1':updateFormAction}">
+      <div class="modal-header">
+        <h4 class="modal-title">Update Setting</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="updateForm" (ngSubmit)="onSubmitupdateForm()" #ngupdateform="ngForm">
+        <div class="modal-body">
+          <div class="container">
+            <div class="form-group">
+              <label>Name <span class="symbol required"></span></label>
+              <input type="text" class="form-control" placeholder="Enter Name"
+                [formGroup]="updateForm" formControlName="name">
+              <div class="invalid-feedback" *ngIf="updateForm.controls.name.invalid &&
+                (updateForm.controls.name.dirty || updateForm.controls.name.touched ||
+                ngupdateform.submitted)"
+              >
+                <div *ngIf="updateForm.controls.name.errors.required">This field is required.</div>
+                <div *ngIf="updateForm.controls.name.errors.maxlength">Maximum 50 characters allowed.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Value <span class="symbol required"></span></label>
+              <input type="text" class="form-control" placeholder="Enter Value"
+                [formGroup]="updateForm" formControlName="value">
+              <div class="invalid-feedback" *ngIf="updateForm.controls.value.invalid &&
+                (updateForm.controls.value.dirty || updateForm.controls.value.touched ||
+                ngupdateform.submitted)"
+              >
+                <div *ngIf="updateForm.controls.value.errors.required">This field is required.</div>
+                <div *ngIf="updateForm.controls.value.errors.maxlength">Maximum 250 characters allowed.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea type="text" class="form-control" placeholder="Enter Description"
+                [formGroup]="updateForm" formControlName="description"></textarea>
+              <div class="invalid-feedback" *ngIf="updateForm.controls.description.invalid &&
+                (updateForm.controls.description.dirty || updateForm.controls.description.touched ||
+                ngupdateform.submitted)"
+              >
+                <div *ngIf="updateForm.controls.description.errors.maxlength">Maximum 250 characters allowed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="submit" [disabled]="updateFormAction" class="btn theme-btn mx-auto">
+            <span [ngClass]="{'spinner-border spinner-border-sm':updateFormAction}"></span> Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

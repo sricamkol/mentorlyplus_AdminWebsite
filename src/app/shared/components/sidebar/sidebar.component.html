@@ -1,0 +1,152 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar" *ngIf="isloggedInObservable$ | async as isloggedInObservable">
+  <ul class="nav">
+    <li class="nav-item cp" routerLink="/dashboard" routerLinkActive="active">
+      <a class="nav-link"><i class="mdi mdi-view-dashboard menu-icon mdi-24px"></i><span class="menu-title">Dashboard</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/establishments" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+      <a class="nav-link" routerLink="/establishments">
+        <i class="mdi mdi-hospital-marker menu-icon mdi-24px"></i><span class="menu-title">Clinics/Hospitals</span>
+      </a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/doctors" routerLinkActive="active" *ngIf="userType == 'Super Admin' || userType == 'Clinic'">
+      <a class="nav-link"><i class="mdi mdi-medical-bag menu-icon mdi-24px"></i><span class="menu-title">Doctors</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/patients" routerLinkActive="active"
+      *ngIf="userType == 'Super Admin' || userType == 'Clinic' || userType == 'Doctor'"
+    >
+      <a class="nav-link"><i class="mdi mdi-account-multiple menu-icon mdi-24px"></i><span class="menu-title">Patients</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/my-establishments" routerLinkActive="active" *ngIf="created_by == 0 && userType == 'Doctor'">
+      <a class="nav-link"><i class="mdi mdi-hospital-marker menu-icon mdi-24px"></i><span class="menu-title">Clinics/Hospitals</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/appointments" routerLinkActive="active">
+      <a class="nav-link"><i class="mdi mdi-calendar-clock menu-icon mdi-24px"></i><span class="menu-title">Appointments</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/drug-catalog" routerLinkActive="active" *ngIf="userType == 'Doctor'">
+      <a class="nav-link"><i class="mdi mdi-test-tube menu-icon mdi-24px"></i><span class="menu-title">Drug Catalog</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/feedbacks" routerLinkActive="active"
+      *ngIf="userType == 'Super Admin' || userType == 'Patient' || userType == 'Doctor'">
+      <a class="nav-link"><i class="mdi mdi-comment-text menu-icon mdi-24px"></i><span class="menu-title">Feedback</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/notifications" routerLinkActive="active"
+      *ngIf="userType == 'Super Admin' || userType == 'Doctor' || userType == 'Patient'"
+    >
+      <a class="nav-link"><i class="mdi mdi-bell menu-icon mdi-24px"></i><span class="menu-title">Notification</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/orders" routerLinkActive="active">
+      <a class="nav-link"><i class="mdi mdi-comment-text menu-icon mdi-24px"></i><span class="menu-title">Orders</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/orders/payouts" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+      <a class="nav-link"><i class="mdi mdi-cash-refund menu-icon mdi-24px"></i><span class="menu-title">Payouts</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+      <a class="nav-link" data-toggle="collapse" href="#cms" aria-expanded="false" aria-controls="cms">
+        <i class="mdi mdi-content-paste menu-icon mdi-24px"></i><span class="menu-title">CMS</span><i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="cms">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item cp" routerLink="/cms/menus" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Menus</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/cms/content" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Content</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/cms/sliders" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Sliders</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/faq" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">FAQ</span></a>
+          </li>
+          <!-- <li class="nav-item cp" routerLink="/cms/speciality" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Speciality</span></a>
+          </li> -->
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item cp" routerLinkActive="active" *ngIf="userType == 'Super Admin' || userType == 'Doctor'">
+      <a class="nav-link" data-toggle="collapse" href="#articles" aria-expanded="false" aria-controls="articles">
+        <i class="mdi mdi-note-multiple-outline menu-icon mdi-24px"></i>
+        <span class="menu-title">{{this.userType != 'Super Admin' ? 'Healthfeeds' : 'Articles'}}</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="articles">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item cp" routerLink="/healthfeeds/categories" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" *ngIf="userType == 'Super Admin'">
+            <a class="nav-link" routerLink="/healthfeeds/categories"><span class="menu-title">Categories</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/articles" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" *ngIf="userType == 'Super Admin'">
+            <a class="nav-link" routerLink="/articles">
+              <span class="menu-title">Articles</span>
+            </a>
+          </li>
+          <li class="nav-item cp" routerLink="/healthfeeds" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" *ngIf="userType == 'Doctor' || userType == 'Super Admin'">
+            <a class="nav-link" routerLink="/healthfeeds"><span class="menu-title">Healthfeeds</span></a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item cp" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+      <a class="nav-link" data-toggle="collapse" href="#settings" aria-expanded="false" aria-controls="settings">
+        <i class="mdi mdi-settings menu-icon mdi-24px"></i><span class="menu-title">Settings</span><i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="settings">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item cp" routerLink="/settings/web-settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Web Settings</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/specializations" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Specializations</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/email-templates" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Email Templates</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/diseases" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Diseases</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/symptoms" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Symptoms</span></a>
+          </li>
+          <!-- <li class="nav-item cp" routerLink="/settings/countries" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Countries</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/regions" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Regions</span></a>
+          </li>
+          <li class="nav-item cp" routerLink="/settings/cities" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link"><span class="menu-title">Cities</span></a>
+          </li> -->
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item cp" routerLink="/careers" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+      <a class="nav-link"><i class="mdi mdi-school menu-icon mdi-24px"></i><span class="menu-title">Careers</span></a>
+    </li>
+
+    <li class="nav-item cp" routerLink="/contact-us" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+      <a class="nav-link"><i class="mdi mdi-contacts menu-icon mdi-24px"></i><span class="menu-title">Contact Us</span></a>
+    </li>
+
+    <li class="nav-item cp" (click)="onLogout()">
+      <a class="nav-link"><i class="mdi mdi-logout menu-icon mdi-24px"></i><span class="menu-title">Logout</span></a>
+    </li>
+  </ul>
+</nav>
+<!-- END: SIDEBAR -->
