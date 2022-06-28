@@ -8,6 +8,11 @@ export const environment = {
   api_url: 'http://localhost/medzigo/api',
   site_url: 'http://localhost:4200',
   admin_url: 'http://localhost:4200',
+
+  // api_url: 'https://compassionsandbox.smartcloudconsult.com/api',
+  // site_url: 'https://compassionsandbox.smartcloudconsult.com',
+  // admin_url: 'https://compassionsandbox.smartcloudconsult.com/admin',
+
   firebase:{
     apiKey: "AIzaSyBvTiWCuZpzxAJx5-SI-RcXD9M0hFN69Hc",
     authDomain: "smartcloudconsult-a2807.firebaseapp.com",

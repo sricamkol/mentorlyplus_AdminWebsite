@@ -1,9 +1,12 @@
 export const environment = {
   production: true,
   api_key: '48gowo0o88kk8gwoc4kww88wckwgk4gk00s0o8oo',
-  api_url: 'https://compassiond.smartcloudconsult.com/api',
-  site_url: 'https://compassiond.smartcloudconsult.com',
-  admin_url: 'https://compassiond.smartcloudconsult.com/admin',
+  // api_url: 'https://compassiond.smartcloudconsult.com/api',
+  // site_url: 'https://compassiond.smartcloudconsult.com',
+  // admin_url: 'https://compassiond.smartcloudconsult.com/admin',
+  api_url: 'https://compassionsandbox.smartcloudconsult.com/api',
+  site_url: 'https://compassionsandbox.smartcloudconsult.com',
+  admin_url: 'https://compassionsandbox.smartcloudconsult.com/admin',
   firebase:{
     apiKey: "AIzaSyBvTiWCuZpzxAJx5-SI-RcXD9M0hFN69Hc",
     authDomain: "smartcloudconsult-a2807.firebaseapp.com",
