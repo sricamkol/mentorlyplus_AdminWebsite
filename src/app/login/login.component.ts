@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
       //window.location.href = environment.site_url + (this.returnUrl ? '/login?returnUrl=admin'+this.returnUrl : '');
       if(this.returnUrl) {
         this.returnUrl = environment.admin_url + (this.returnUrl ? '/'+this.returnUrl : '');
-        console.log('ru', this.returnUrl);
         window.location.href = environment.site_url + (this.returnUrl ? '/login?returnUrl='+encodeURIComponent(this.returnUrl) : '');
       } else {
         window.location.href = environment.site_url;

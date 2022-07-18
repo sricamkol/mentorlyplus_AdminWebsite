@@ -5,11 +5,11 @@
 export const environment = {
   production: false,
   api_key: '48gowo0o88kk8gwoc4kww88wckwgk4gk00s0o8oo',
-  api_url: 'http://localhost/medzigo/api',
+  //api_url: 'http://localhost/medzigo/api',
   site_url: 'http://localhost:4200',
-  admin_url: 'http://localhost:4200',
+  admin_url: 'http://localhost:4200/admin',
 
-  // api_url: 'https://compassionsandbox.smartcloudconsult.com/api',
+ api_url: 'https://compassionsandbox.smartcloudconsult.com/api',
   // site_url: 'https://compassionsandbox.smartcloudconsult.com',
   // admin_url: 'https://compassionsandbox.smartcloudconsult.com/admin',
 
