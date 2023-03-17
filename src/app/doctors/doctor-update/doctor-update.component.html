@@ -71,7 +71,21 @@
             <div class="card-title"><h3>Account Info</h3></div>
             <form [formGroup]="updateDoctorForm" (ngSubmit)="onSubmitupdateDoctorForm()" #ngupdatedoctorform="ngForm">
               <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-2">
+                  <label>Title<span class="symbol required"></span></label>
+                  <select class="form-control" formControlName="title">
+                    <option value='Mr.'>Mr.</option>
+                    <option value='Mrs.'>Mrs.</option>
+                    <option value='Miss.'>Miss.</option>
+                    <option value='Dr.'>Dr.</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="updateDoctorForm.controls.title.invalid && (updateDoctorForm.controls.title.dirty || updateDoctorForm.controls.title.touched || ngupdatedoctorform.submitted)">
+                    <div *ngIf="updateDoctorForm.controls.title.errors.required">This field is required.</div>
+                    <div *ngIf="updateDoctorForm.controls.title.errors.minlength">Minimum 2 characters required.</div>
+                    <div *ngIf="updateDoctorForm.controls.title.errors.maxlength">Maximum 50 characters allowed.</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-5">
                   <label>First Name <span class="symbol required"></span></label>
                   <input type="text" class="form-control" placeholder="Enter First Name" formControlName="first_name">
                   <div class="invalid-feedback" *ngIf="updateDoctorForm.controls.first_name.invalid &&
@@ -83,7 +97,7 @@
                     <div *ngIf="updateDoctorForm.controls.first_name.errors.maxlength">Maximum 50 characters allowed.</div>
                   </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                   <label>Last Name <span class="symbol required"></span></label>
                   <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="last_name">
                   <div class="invalid-feedback" *ngIf="updateDoctorForm.controls.last_name.invalid &&

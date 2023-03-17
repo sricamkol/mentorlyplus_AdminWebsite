@@ -1,15 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as _moment from 'moment';
 
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+
+import { ActivatedRoute } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
 import { CommonService } from '../../services/common.service';
 import { DoctorService } from '../../services/doctor.service';
-import { AlertService } from '../../services/alert.service';
+import { Title } from '@angular/platform-browser';
 
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import * as _moment from 'moment';
 const moment = _moment;
 export const MY_FORMATS = {
   parse: {
@@ -67,6 +68,11 @@ export class DoctorUpdateComponent implements OnInit {
     });
 
     this.updateDoctorForm = this.formBuilder.group({
+      title: ['Dr.', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50)
+      ]],
       first_name: ['', [
         Validators.required,
         Validators.minLength(2),
@@ -146,6 +152,7 @@ export class DoctorUpdateComponent implements OnInit {
     if (this.updateDoctorForm.valid) {
       let formData = {
         token: this.commonService.getUserData('token'),
+        title: this.updateDoctorForm.value.title,
         first_name: this.updateDoctorForm.value.first_name,
         last_name: this.updateDoctorForm.value.last_name,
         gender: this.updateDoctorForm.value.gender,

@@ -1,12 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
-import { DoctorService } from '../services/doctor.service';
-import { SpecializationService } from '../services/specialization.service';
-import { CommonService } from '../services/common.service';
+import { NavigationEnd, Router } from '@angular/router';
+
 import { AlertService } from '../services/alert.service';
+import { CommonService } from '../services/common.service';
+import { DoctorService } from '../services/doctor.service';
 import { ModalService } from '../services/modal.service';
+import { SpecializationService } from '../services/specialization.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-doctors',
@@ -58,6 +59,11 @@ export class DoctorsComponent implements OnInit {
 
   ngOnInit() {
     this.addDoctorForm = this.formBuilder.group({
+      title: ['Dr.', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50)
+      ]],
       first_name: ['', [
         Validators.required,
         Validators.minLength(2),

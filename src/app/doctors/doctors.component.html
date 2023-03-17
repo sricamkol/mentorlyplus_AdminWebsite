@@ -156,7 +156,21 @@
               </div>
               <div class="col-md-8 intro-sec">
                 <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-2">
+                    <label>Title<span class="symbol required"></span></label>
+                    <select class="form-control" formControlName="title">
+                      <option value='Mr.'>Mr.</option>
+                      <option value='Mrs.'>Mrs.</option>
+                      <option value='Miss.'>Miss.</option>
+                      <option value='Dr.'>Dr.</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="addDoctorForm.controls.title.invalid && (addDoctorForm.controls.title.dirty || addDoctorForm.controls.title.touched || ngaddDoctorForm.submitted)">
+                      <div *ngIf="addDoctorForm.controls.title.errors.required">This field is required.</div>
+                      <div *ngIf="addDoctorForm.controls.title.errors.minlength">Minimum 2 characters required.</div>
+                      <div *ngIf="addDoctorForm.controls.title.errors.maxlength">Maximum 50 characters allowed.</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-5">
                     <label>First Name <span class="symbol required"></span></label>
                     <input type="text" class="form-control" placeholder="Enter First Name" formControlName="first_name">
                     <div class="invalid-feedback" *ngIf="addDoctorForm.controls.first_name.invalid &&
@@ -166,7 +180,7 @@
                       <div *ngIf="addDoctorForm.controls.first_name.errors.maxlength">Maximum 50 characters allowed.</div>
                     </div>
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-5">
                     <label>Last Name <span class="symbol required"></span></label>
                     <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="last_name">
                     <div class="invalid-feedback" *ngIf="addDoctorForm.controls.last_name.invalid &&
