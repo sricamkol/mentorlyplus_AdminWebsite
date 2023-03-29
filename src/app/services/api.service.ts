@@ -1,11 +1,10 @@
+import { BehaviorSubject } from 'rxjs';
+import { CommonService } from './common.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
-
 import { environment } from '../../environments/environment';
-import { CommonService } from './common.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ApiService {
@@ -21,7 +20,7 @@ export class ApiService {
     this.apiBaseUrl = environment.api_url;
   }
 
-  login(postData: FormData, remember_me=false) {
+  login(postData: FormData, remember_me = false) {
     let apiURL = this.apiBaseUrl + '/account/login';
     return this.httpClient.post(apiURL, postData).pipe(
       map(

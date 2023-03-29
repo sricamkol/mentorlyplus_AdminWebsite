@@ -29,8 +29,8 @@ export class DoctorsComponent implements OnInit {
   account_status = '';
   rating = '';
 
-  @ViewChild('ngadddoctorform', {static:false}) ngadddoctorform: NgForm;
-  @ViewChild('ngprofilimagefileinput', {static:false}) ngprofilimagefileinput: ElementRef;
+  @ViewChild('ngadddoctorform', {static: false}) ngadddoctorform: NgForm;
+  @ViewChild('ngprofilimagefileinput', {static: false}) ngprofilimagefileinput: ElementRef;
   addDoctorForm: FormGroup;
   addDoctorFormLoader = false;
   emailRegex = this.commonService.emailRegex;
@@ -51,9 +51,9 @@ export class DoctorsComponent implements OnInit {
     private modalService: ModalService
   ) {
     this.title.setTitle('Doctors');
-    this.router.routeReuseStrategy.shouldReuseRoute = function () { return false; };
+    this.router.routeReuseStrategy.shouldReuseRoute = ()  => false;
     this.mySubscription = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) this.router.navigated = false;
+      if (event instanceof NavigationEnd) { this.router.navigated = false; }
     });
   }
 
@@ -119,12 +119,11 @@ export class DoctorsComponent implements OnInit {
   }
 
   changeRating(r: number) {
-    this.searchForm.patchValue({rating:r});
+    this.searchForm.patchValue({rating: r});
   }
 
   togglePopover() {
-    if (this.popoverToggle) this.popoverToggle = false;
-    else this.popoverToggle = true;
+    if (this.popoverToggle) { this.popoverToggle = false; } else { this.popoverToggle = true; }
   }
 
   clearFilter() {
@@ -145,12 +144,12 @@ export class DoctorsComponent implements OnInit {
           this.specializations = response.data;
         }
       }
-    )
+    );
   }
 
   openAddDoctorForm() {
     this.ngadddoctorform.resetForm();
-    this.addDoctorForm.patchValue({gender:'Male'});
+    this.addDoctorForm.patchValue({gender: 'Male'});
     this.userSelectedImage = null;
     this.profile_image_src = this.commonService.defaultImage;
     this.modalService.open_modal('#addDoctorFormModal');
@@ -158,7 +157,7 @@ export class DoctorsComponent implements OnInit {
 
   onChangeProfileImage(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
-      let file = fileInput.target.files[0];
+      const file = fileInput.target.files[0];
       const max_height = 300;
       const max_width = 300;
 
@@ -178,13 +177,13 @@ export class DoctorsComponent implements OnInit {
       reader.onload = (e: any) => {
         const image = new Image();
         image.src = e.target.result;
-        image.onload = rs => {
-          const img_height = rs.currentTarget['height'];
-          const img_width = rs.currentTarget['width'];
+        image.onload = (rs: any) => {
+          const img_height = rs.currentTarget.height;
+          const img_width = rs.currentTarget.width;
           if (img_height > max_height && img_width > max_width) {
             this.alertService.showValidationErrors('Maximum dimentions allowed ' + max_height + '*' + max_width + 'px');
             return false;
-          } else if(img_height != img_width) {
+          } else if (img_height !== img_width) {
             this.alertService.showValidationErrors('Image must be square shaped');
             return false;
           }
@@ -199,11 +198,12 @@ export class DoctorsComponent implements OnInit {
 
   onSubmitAddDoctorForm() {
     if (this.addDoctorForm.valid) {
-      let postData = new FormData();
+      const postData = new FormData();
       postData.append('token', this.commonService.getUserData('token'));
       if (this.userSelectedImage) {
         postData.append('profile_image', this.userSelectedImage);
       }
+      postData.append('title', this.addDoctorForm.value.title);
       postData.append('first_name', this.addDoctorForm.value.first_name);
       postData.append('last_name', this.addDoctorForm.value.last_name);
       postData.append('gender', this.addDoctorForm.value.gender);

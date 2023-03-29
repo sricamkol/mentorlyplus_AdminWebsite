@@ -1,38 +1,38 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from '@angular/router';
-import { AngularFireMessaging } from "@angular/fire/messaging";
-import { DeviceDetectorService } from "ngx-device-detector";
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { ApiService } from "./../services/api.service";
-import { CommonService } from "./../services/common.service";
-import { environment } from "src/environments/environment";
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { ApiService } from './../services/api.service';
+import { CommonService } from './../services/common.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { Title } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit {
   isloggedIn = false;
 
-  passwordType = "password";
+  passwordType = 'password';
 
   loginForm: FormGroup;
   loginFormLoader = false;
   emailRegex = this.commonService.emailRegex;
-  errorMsg = "";
+  errorMsg = '';
 
-  firebase_token = '';
+  firebaseToken = '';
   deviceInfo = {
-    browser: "",
-    browser_version: "",
-    device: "",
-    os: "",
-    os_version: "",
-    userAgent: ""
+    browser: '',
+    browser_version: '',
+    device: '',
+    os: '',
+    os_version: '',
+    userAgent: ''
   };
 
   returnUrl = '';
@@ -49,73 +49,75 @@ export class LoginComponent implements OnInit {
     private apiService: ApiService,
     private commonService: CommonService
   ) {
-    this.title.setTitle("Login");
+
+    this.title.setTitle('Login');
     this.activatedRoute.queryParamMap.subscribe(params => {
       this.returnUrl = params.get('returnUrl');
-    });
-    console.log('this.returnUrl', this.returnUrl);
-    if (this.commonService.isLoggedIn()) {
-      this.commonService.userDefaultRoute();
-    } else if(environment.production) {
-      //window.location.href = environment.site_url + (this.returnUrl ? '/login?returnUrl=admin'+this.returnUrl : '');
-      if(this.returnUrl) {
-        this.returnUrl = environment.admin_url + (this.returnUrl ? '/'+this.returnUrl : '');
-        window.location.href = environment.site_url + (this.returnUrl ? '/login?returnUrl='+encodeURIComponent(this.returnUrl) : '');
-      } else {
-        window.location.href = environment.site_url;
+
+      if (this.commonService.isLoggedIn()) {
+        this.commonService.userDefaultRoute();
+      } else if (environment.production) {
+        window.location.href = environment.site_url + (this.returnUrl ? '/login?returnUrl=admin' + this.returnUrl : '');
+        if (this.returnUrl) {
+          this.returnUrl = environment.admin_url + (this.returnUrl ? '/' + this.returnUrl : '');
+          window.location.href = environment.site_url + (this.returnUrl ? '/login?returnUrl=' + encodeURIComponent(this.returnUrl) : '');
+        } else {
+          window.location.href = environment.site_url;
+        }
       }
-    }
+    });
+
   }
 
   ngOnInit() {
     this.deviceInfo = this.deviceDetectorService.getDeviceInfo();
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
-        this.firebase_token = token;
+        this.firebaseToken = token;
       }
     );
     this.loginForm = this.fb.group({
-      email: ["", [
+      email: ['', [
         Validators.required,
         Validators.email,
         Validators.pattern(this.emailRegex),
       ]],
-      password: ["", Validators.required],
-      remember_me: [""]
+      password: ['', Validators.required],
+      remember_me: ['']
     });
   }
 
   onSubmitLoginForm() {
     if (this.loginForm.valid) {
-      this.errorMsg = "";
+      this.errorMsg = '';
       this.loginFormLoader = true;
 
-      let postData = new FormData();
+      const postData = new FormData();
       postData.append('email', this.loginForm.value.email);
       postData.append('password', this.loginForm.value.password);
       postData.append('remember_me', this.loginForm.value.remember_me);
       postData.append('user_type', 'Panel');
-      postData.append("deviceInfo[token]", this.firebase_token);
-      postData.append("deviceInfo[systemName]", 'Website');
-      postData.append("deviceInfo[deviceUniqueID]", this.firebase_token);
-      postData.append("deviceInfo[deviceId]", this.deviceInfo.browser);
-      postData.append("deviceInfo[deviceDesignName]", this.deviceInfo.browser);
-      postData.append("deviceInfo[brandName]", this.deviceInfo.browser);
-      postData.append("deviceInfo[deviceName]", this.deviceInfo.browser);
-      postData.append("deviceInfo[manufacturer]", this.deviceInfo.os);
-      postData.append("deviceInfo[systemVersion]", this.deviceInfo.browser_version);
-      postData.append("deviceInfo[systemApiLevel]", this.deviceInfo.browser_version);
-      postData.append("deviceInfo[appVersion]", this.deviceInfo.browser_version);
-      postData.append("deviceInfo[deviceModel]", this.deviceInfo.browser);
-      postData.append("deviceInfo[uiMode]", this.deviceInfo.os_version);
-      postData.append("deviceInfo[Fingerprint]", this.deviceInfo.userAgent);
-      postData.append("deviceInfo[Serial]", this.deviceInfo.browser_version);
+      postData.append('deviceInfo[token]', this.firebaseToken);
+      postData.append('deviceInfo[systemName]', 'Website');
+      postData.append('deviceInfo[deviceUniqueID]', this.firebaseToken);
+      postData.append('deviceInfo[deviceId]', this.deviceInfo.browser);
+      postData.append('deviceInfo[deviceDesignName]', this.deviceInfo.browser);
+      postData.append('deviceInfo[brandName]', this.deviceInfo.browser);
+      postData.append('deviceInfo[deviceName]', this.deviceInfo.browser);
+      postData.append('deviceInfo[manufacturer]', this.deviceInfo.os);
+      postData.append('deviceInfo[systemVersion]', this.deviceInfo.browser_version);
+      postData.append('deviceInfo[systemApiLevel]', this.deviceInfo.browser_version);
+      postData.append('deviceInfo[appVersion]', this.deviceInfo.browser_version);
+      postData.append('deviceInfo[deviceModel]', this.deviceInfo.browser);
+      postData.append('deviceInfo[uiMode]', this.deviceInfo.os_version);
+      postData.append('deviceInfo[Fingerprint]', this.deviceInfo.userAgent);
+      postData.append('deviceInfo[Serial]', this.deviceInfo.browser_version);
       this.apiService.login(postData, this.loginForm.value.remember_me).subscribe(
         (response: any) => {
           this.loginFormLoader = false;
           if (response.status === false) {
             this.errorMsg = response.message;
-          } else if(this.returnUrl) {
+          } else if (this.returnUrl) {
             this.router.navigateByUrl(this.returnUrl);
           }
         },
@@ -125,10 +127,10 @@ export class LoginComponent implements OnInit {
   }
 
   showHidePassword(passwordType: string) {
-    if (passwordType == "password") {
-      this.passwordType = "text";
+    if (passwordType === 'password') {
+      this.passwordType = 'text';
     } else {
-      this.passwordType = "password";
+      this.passwordType = 'password';
     }
   }
 

@@ -127,8 +127,7 @@
   </div>
 </div>
 
-<app-doctor-card [viewType]="viewType" [search]="search" [gender]="gender" [rating]="rating"
-  [specialization_id]="specialization_id" [status]="status" [account_status]="account_status"></app-doctor-card>
+<app-doctor-card [viewType]="viewType" [search]="search" [gender]="gender" [rating]="rating" [specialization_id]="specialization_id" [status]="status" [account_status]="account_status"></app-doctor-card>
 
 <div class="modal fade actionModal" id="addDoctorFormModal" tabindex="-1" role="dialog" aria-labelledby="addDoctorFormModal" aria-hidden="true" data-backdrop="static">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -164,7 +163,7 @@
                       <option value='Miss.'>Miss.</option>
                       <option value='Dr.'>Dr.</option>
                     </select>
-                    <div class="invalid-feedback" *ngIf="addDoctorForm.controls.title.invalid && (addDoctorForm.controls.title.dirty || addDoctorForm.controls.title.touched || ngaddDoctorForm.submitted)">
+                    <div class="invalid-feedback" *ngIf="addDoctorForm.controls.title.invalid && (addDoctorForm.controls.title.dirty || addDoctorForm.controls.title.touched || ngadddoctorform.submitted)">
                       <div *ngIf="addDoctorForm.controls.title.errors.required">This field is required.</div>
                       <div *ngIf="addDoctorForm.controls.title.errors.minlength">Minimum 2 characters required.</div>
                       <div *ngIf="addDoctorForm.controls.title.errors.maxlength">Maximum 50 characters allowed.</div>

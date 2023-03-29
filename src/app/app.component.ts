@@ -1,6 +1,7 @@
-import { Component, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { ApiService } from './services/api.service'
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+
+import { ApiService } from './services/api.service';
 import { CommonService } from './services/common.service';
 import { MessagingService } from './services/messaging.service';
 
@@ -10,9 +11,9 @@ import { MessagingService } from './services/messaging.service';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   @ViewChild('mycontainer', {static: true}) mycontainer: ElementRef;
-  userToken='';
+  userToken = '';
 
   constructor(
     private router: Router,
@@ -20,14 +21,14 @@ export class AppComponent implements AfterViewInit {
     private commonService: CommonService,
     private messagingService: MessagingService
   ) {
-    //this.angularFireMessaging.requestToken.subscribe();
+    // this.angularFireMessaging.requestToken.subscribe();
   }
 
   ngOnInit() {
-	  this.apiService.currentUserData.subscribe(
-      (userData:any) => {
+    this.apiService.currentUserData.subscribe(
+      (userData: any) => {
         this.userToken = (userData.token) ? userData.token : this.commonService.getUserData('token');
-        if(this.userToken) {
+        if (this.userToken) {
           this.commonService.setLoggedInObservable(true);
           this.mycontainer.nativeElement.classList.add('page-body-wrapper');
         } else {
@@ -35,9 +36,9 @@ export class AppComponent implements AfterViewInit {
         }
       }
     );
-    this.messagingService.requestPermission()
+    this.messagingService.requestPermission();
     this.messagingService.receiveMessage();
-    //this.message = this.messagingService.currentMessage
+    // this.message = this.messagingService.currentMessage
   }
 
   ngAfterViewInit() {

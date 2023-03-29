@@ -7,6 +7,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
+import { ApiService } from 'src/app/services/api.service';
 import { CommonService } from '../../services/common.service';
 import { DoctorService } from '../../services/doctor.service';
 import { Title } from '@angular/platform-browser';
@@ -39,8 +40,8 @@ export const MY_FORMATS = {
   ]
 })
 export class DoctorUpdateComponent implements OnInit {
-  userData:any = {
-    "profile_image_url": '',
+  userData: any = {
+    profile_image_url: '',
   };
   user_id = '';
   userType = '';
@@ -59,7 +60,8 @@ export class DoctorUpdateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private commonService: CommonService,
     private doctorService: DoctorService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private apiService: ApiService,
   ) {
     this.title.setTitle('Profile');
 
@@ -111,7 +113,7 @@ export class DoctorUpdateComponent implements OnInit {
     }
 
     this.activatedRoute.params.subscribe(routeParams => {
-      if(this.userType != 'Doctor') {
+      if (this.userType !== 'Doctor') {
         this.user_id = routeParams.user_id ? routeParams.user_id : '';
       }
       this.getDetail();
@@ -120,9 +122,9 @@ export class DoctorUpdateComponent implements OnInit {
 
   getDetail() {
     this.updateDoctorFormLoader = true;
-    let params = {};
-    if(this.userType != 'Doctor') {
-      params['user_id'] = this.user_id;
+    const params: any = {};
+    if (this.userType !== 'Doctor') {
+      params.user_id = this.user_id;
     }
     this.doctorService.detail(params).subscribe(
       (response: any) => {
@@ -131,6 +133,7 @@ export class DoctorUpdateComponent implements OnInit {
 
           this.user_id = this.userData.user_id;
           this.updateDoctorForm.patchValue({
+            title: this.userData.title,
             first_name: this.userData.first_name,
             last_name: this.userData.last_name,
             gender: this.userData.gender,
@@ -139,7 +142,7 @@ export class DoctorUpdateComponent implements OnInit {
             introduction: this.userData.introduction,
             dob: moment(this.userData.dob)
           });
-          this.updateDoctorFormLoader = false
+          this.updateDoctorFormLoader = false;
         } else {
           this.commonService.userDefaultRoute();
         }
@@ -150,7 +153,7 @@ export class DoctorUpdateComponent implements OnInit {
 
   onSubmitupdateDoctorForm() {
     if (this.updateDoctorForm.valid) {
-      let formData = {
+      const formData: any = {
         token: this.commonService.getUserData('token'),
         title: this.updateDoctorForm.value.title,
         first_name: this.updateDoctorForm.value.first_name,
@@ -158,18 +161,34 @@ export class DoctorUpdateComponent implements OnInit {
         gender: this.updateDoctorForm.value.gender,
         mobile_number: this.updateDoctorForm.value.mobile_number,
         email: this.updateDoctorForm.value.email,
-        dob: this.updateDoctorForm.value.dob.format("YYYY-MM-DD"),
+        dob: this.updateDoctorForm.value.dob.format('YYYY-MM-DD'),
         introduction: this.updateDoctorForm.value.introduction
       };
 
-      if(this.userType != 'Doctor') {
-        formData['user_id'] = this.user_id;
+      if (this.userType !== 'Doctor') {
+        formData.user_id = this.user_id;
       }
 
       this.updateDoctorFormLoader = true;
       this.doctorService.update(formData).subscribe(
         (response: any) => {
           if (response.status) {
+            this.getDetail();
+
+            try {
+              const localUser = JSON.parse(localStorage.getItem('userData'));
+              // tslint:disable-next-line:forin
+              for (const i in response.params) {
+                localUser[i] = response.params[i];
+              }
+
+              localStorage.setItem('userData', JSON.stringify(localUser));
+              this.apiService.userData.next(localUser);
+
+            } catch (err) {
+
+            }
+
             this.alertService.show_alert(response.message);
           }
           this.updateDoctorFormLoader = false;
@@ -180,12 +199,12 @@ export class DoctorUpdateComponent implements OnInit {
 
   onChangeProfileImage(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
-      const allowedMaxSize = 2 * 1024 *1024;
+      const allowedMaxSize = 2 * 1024 * 1024;
       const allowedFileTypes = ['image/png', 'image/jpeg'];
       const allowedMaxHeight = 2000;
       const allowedMaxWidth = 2000;
 
-      let file = fileInput.target.files[0];
+      const file = fileInput.target.files[0];
 
       if (!allowedFileTypes.includes(file.type)) {
         this.alertService.showValidationErrors('Only Images are allowed ( JPG | PNG )');
@@ -201,17 +220,17 @@ export class DoctorUpdateComponent implements OnInit {
       reader.onload = (e: any) => {
         const image = new Image();
         image.src = e.target.result;
-        image.onload = rs => {
-          const img_height = rs.currentTarget['height'];
-          const img_width = rs.currentTarget['width'];
+        image.onload = (rs: any) => {
+          const img_height = rs.currentTarget.height;
+          const img_width = rs.currentTarget.width;
 
           if (img_height > allowedMaxHeight && img_width > allowedMaxWidth) {
-            //this.alertService.showValidationErrors('Maximum dimentions allowed ' + allowedMaxHeight + '*' + allowedMaxWidth + 'px');
-            //return false;
+            // this.alertService.showValidationErrors('Maximum dimentions allowed ' + allowedMaxHeight + '*' + allowedMaxWidth + 'px');
+            // return false;
           }
           const formData = new FormData;
           formData.append('token', this.commonService.getUserData('token'));
-          if(this.userType != 'Doctor') {
+          if (this.userType !== 'Doctor') {
             formData.append('user_id', this.user_id);
           }
           formData.append('profile_image', file);
