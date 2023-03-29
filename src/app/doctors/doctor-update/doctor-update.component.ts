@@ -177,17 +177,15 @@ export class DoctorUpdateComponent implements OnInit {
 
             try {
               const localUser = JSON.parse(localStorage.getItem('userData'));
-              // tslint:disable-next-line:forin
-              for (const i in response.params) {
-                localUser[i] = response.params[i];
+              if (Number(response.params.user_id) === Number(localUser.user_id)) {
+                // tslint:disable-next-line:forin
+                for (const i in response.params) {
+                  localUser[i] = response.params[i];
+                }
+                localStorage.setItem('userData', JSON.stringify(localUser));
+                this.apiService.userData.next(localUser);
               }
-
-              localStorage.setItem('userData', JSON.stringify(localUser));
-              this.apiService.userData.next(localUser);
-
-            } catch (err) {
-
-            }
+            } catch (err) {}
 
             this.alertService.show_alert(response.message);
           }
