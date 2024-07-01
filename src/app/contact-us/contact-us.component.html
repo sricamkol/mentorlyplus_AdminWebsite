@@ -94,7 +94,7 @@
             </div>
 
             <div class="col-md-6 my-auto">
-              <p> <strong class="">User Type :</strong> {{contactDetail.user_type}} </p>
+              <p> <strong class="">User Type :</strong> {{contactDetail.user_type === "Patient" ? "Seeker" : contactDetail.user_type === "Doctor" ? "Carer" : contactDetail.user_type}} </p>
               <p> <strong class="">Interested In:</strong> {{contactDetail.interested_in}}</p>
               <p> <strong class="">Apply Date time :</strong> {{contactDetail.created_date|date:'MMM d, y, h:mm a'}} </p>
               <p class="text-pre-wrap"> <strong> Purpose : </strong> {{contactDetail.subject}}</p>

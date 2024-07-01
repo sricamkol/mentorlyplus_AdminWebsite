@@ -5131,7 +5131,7 @@ input[type="button"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #007bff; }
+  background-color: #6016e9 ; }
 
 .nav-fill .nav-item {
   -webkit-box-flex: 1;
@@ -13411,4 +13411,12 @@ dl {
   color: #a3afb7;
   display: block;
   font-size: 12px;
+}
+a#establishment-tab {
+  filter: blur(1px);
+  pointer-events: none;
+}
+a#documents-tab{
+  filter: blur(1px);
+  pointer-events: none;
 }

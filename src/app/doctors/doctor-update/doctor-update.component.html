@@ -2,7 +2,7 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-3">
-        <a routerLink="/doctors">Back to Doctors</a>
+        <a routerLink="/doctors">Back to Carers</a>
       </div>
     </div>
   </div>
@@ -12,7 +12,7 @@
     <div class="edit-pfrl-img-sec">
       <div class="A-profile">
         <img [src]="userData.profile_image_url" alt="" class="rounded-circle">
-        <button type="button" class="btn btn-rounded btn-icon bg-Astral" (click)="ngprofileimagefileinput.click()">
+        <button type="button" style="background-color: #6016e9  !important ;" class="btn btn-rounded btn-icon bg-Astral" (click)="ngprofileimagefileinput.click()">
           <i class="mdi mdi-camera"></i>
           <input #ngprofileimagefileinput type="file" (change)="onChangeProfileImage($event)" style="display:none;" accept="image/*">
         </button>

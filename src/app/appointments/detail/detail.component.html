@@ -52,7 +52,7 @@
                 <h5 class="text-pre-wrap">{{appointmentDetail.doctor_name}}</h5>
                 <div class="text-pre-wrap">{{appointmentDetail.doctor_education}}</div>
                 <div>{{appointmentDetail.doctor_specialization}}</div>
-                <div class="text-pre-wrap">{{appointmentDetail.doctor_experience_formatted}}</div>
+                <!-- <div class="text-pre-wrap">{{appointmentDetail.doctor_experience_formatted}}</div> -->
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@
               <p> {{appointmentDetail.appointment_note}} </p>
             </div>
 
-            <div class="col-md-12" *ngIf="appointmentDetail.services">
+            <div style="display: none;" class="col-md-12" *ngIf="appointmentDetail.services">
               <p> <strong> Service : </strong> {{appointmentDetail.services.service_name}} | <strong> Fee : </strong>
                 {{appointmentDetail.services.service_fee_formatted}}</p>
             </div>

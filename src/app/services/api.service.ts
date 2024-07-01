@@ -52,7 +52,8 @@ export class ApiService {
           sessionStorage.removeItem('find_in');
           this.commonService.setLoggedInObservable(false);
           this.userData.next({});
-          this.router.navigate(['/login']);
+        //  this.router.navigate(['/login']);
+          window.location.href = environment.site_url;
           //window.location.reload();
         }
       );

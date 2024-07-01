@@ -112,7 +112,7 @@ textarea.form-control.text-Astral {
 
 .theme-btn{
 	color: #fff !important;
-	background:  #04bfa5 !important;
+	background:  #6016e9 !important;
 	font-size: 16px !important;
 
 }
@@ -226,6 +226,7 @@ a.btnForgetPwd.small.float-right.frget-password {
 }
 .navbar .navbar-brand-wrapper .navbar-brand img{
 	height: auto !important;
+    width: 165px !important;
 }
 /***********************************************************assistant page**************************************************/
 .A-profile {
@@ -274,7 +275,7 @@ width: 100%
     margin: 0 5px;
 }
 .b-gry{
-	background: #04bfa5;
+	background: #6016e9;
 }
 .b-brown{
 	background:#a92c38;
@@ -284,7 +285,7 @@ width: 100%
 }
 .btn.btn-link.asist-hlp {
     background: #e5edf0;
-    color: #04bfa5;
+    color: black;
     font-size: 12px;
 	display: inline-block;
     margin: 1rem 0rem;
@@ -864,3 +865,10 @@ a.btn.btn-social-icon-text.cal-btn i {
   border: 2px solid #d7d7d7;
   border-radius: 10px !important
 }
+/* li.nav-item.text-left  a {
+    color: black !important;
+} */
+h6.cp.text-Astral.mb-0 {
+    color: black !important;
+}
+

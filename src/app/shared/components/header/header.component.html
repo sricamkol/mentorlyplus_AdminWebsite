@@ -1,12 +1,16 @@
 <!-- START: TOP NAVIGATION -->
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" *ngIf="isloggedInObservable$ | async as isloggedInObservable">
-  <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-    <a class="navbar-brand brand-logo" routerLink="/">
+  <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"  >
+    <a class="navbar-brand brand-logo" *ngIf="userType=='Patient'"  [href]="site_url">
       <!-- <img src="./assets/images/logo.png" alt="logo" style="width: 125px;" /></a> -->
-      <img src="./assets/images/logo-dummy.png" alt="logo" style="width: 125x; border: 2px solid black;" />
+      <img src="./assets/images/logo-dummy.png" alt="logo"  />
+    </a>
+    <a class="navbar-brand brand-logo"  *ngIf="userType!=='Patient'"  routerLink="/">
+      <!-- <img src="./assets/images/logo.png" alt="logo" style="width: 125px;" /></a> -->
+      <img src="./assets/images/logo-dummy.png" alt="logo"  />
     </a>
     <a class="navbar-brand brand-logo-mini" routerLink="/">
-      <img src="./assets/images/clogo-dummy.png" alt="logo" style="width: 125px; border: 2px solid black;" /></a>
+      <img src="./assets/images/clogo-dummy.png" alt="logo"  /></a>
       <!-- <img src="./assets/images/logo.png" alt="logo" style="width: 125px;" /></a> -->
   </div>
   <div class="navbar-menu-wrapper d-flex align-items-stretch">

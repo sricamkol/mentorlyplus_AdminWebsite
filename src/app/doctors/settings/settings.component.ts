@@ -44,16 +44,9 @@ export class SettingsComponent implements OnInit {
       specialization: ['', [
         Validators.required
       ]],
-      practice_started_month: ['', [
-        Validators.required
-      ]],
-      practice_started_year: ['', [
-        Validators.required
-      ]],
-      consultation_fee: ['', [
-        Validators.required,
-        Validators.maxLength(4)
-      ]],
+      practice_started_month: ['' ],
+      practice_started_year: [''],
+      consultation_fee: [''],
       session_duration: ['', [
         Validators.required,
         Validators.maxLength(3)
@@ -132,9 +125,9 @@ export class SettingsComponent implements OnInit {
         formData['user_id'] = this.user_id;
       }
       formData.settings.push({meta_key:'specialization', meta_value:this.settingsForm.value.specialization});
-      formData.settings.push({meta_key:'practice_started_month', meta_value:this.settingsForm.value.practice_started_month});
-      formData.settings.push({meta_key:'practice_started_year', meta_value:this.settingsForm.value.practice_started_year});
-      formData.settings.push({meta_key:'consultation_fee', meta_value:this.settingsForm.value.consultation_fee});
+      // formData.settings.push({meta_key:'practice_started_month', meta_value:this.settingsForm.value.practice_started_month});
+      // formData.settings.push({meta_key:'practice_started_year', meta_value:this.settingsForm.value.practice_started_year});
+      // formData.settings.push({meta_key:'consultation_fee', meta_value:this.settingsForm.value.consultation_fee});
       formData.settings.push({meta_key:'session_duration', meta_value:this.settingsForm.value.session_duration});
       formData.settings.push({meta_key:'session_gap', meta_value:this.settingsForm.value.session_gap});
       formData.settings.push({meta_key:'status', meta_value:this.settingsForm.value.status});

@@ -6,13 +6,13 @@ export const environment = {
   production: false,
   api_key: '48gowo0o88kk8gwoc4kww88wckwgk4gk00s0o8oo',
 
-  // site_url: 'https://medtech.collabintel.in',
-  // admin_url: 'https://medtech.collabintel.in/admin',
-  // api_url: 'https://medtech.collabintel.in/api',
+  // site_url: 'http://localhost:8000',
+  // admin_url: 'http://localhost:8000/admin',
+  // api_url: 'http://localhost/api/',
 
-  site_url: 'http://localhost:4200',
-  admin_url: 'http://localhost:4200/admin',
-  api_url: 'https://medtech.collabintel.in/api',
+  site_url: 'https://mentorlyplus.edu-hub.com.au',
+  admin_url: 'https://mentorlyplus.edu-hub.com.au/admin',
+   api_url: 'https://mentorlyplus.edu-hub.com.au/api',
 
 
   firebase: {

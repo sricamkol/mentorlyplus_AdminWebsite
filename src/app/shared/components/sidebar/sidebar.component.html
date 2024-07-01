@@ -4,20 +4,20 @@
       <a class="nav-link"><i class="mdi mdi-view-dashboard menu-icon mdi-24px"></i><span class="menu-title">Dashboard</span></a>
     </li>
 
-    <li class="nav-item cp" routerLink="/establishments" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+    <li  class="nav-item cp" routerLink="/establishments" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
       <a class="nav-link" routerLink="/establishments">
         <i class="mdi mdi-hospital-marker menu-icon mdi-24px"></i><span class="menu-title">Clinics/Hospitals</span>
       </a>
     </li>
 
     <li class="nav-item cp" routerLink="/doctors" routerLinkActive="active" *ngIf="userType == 'Super Admin' || userType == 'Clinic'">
-      <a class="nav-link"><i class="mdi mdi-medical-bag menu-icon mdi-24px"></i><span class="menu-title">Doctors</span></a>
+      <a class="nav-link"><i class="mdi mdi-medical-bag menu-icon mdi-24px"></i><span class="menu-title">Carer</span></a>
     </li>
 
     <li class="nav-item cp" routerLink="/patients" routerLinkActive="active"
       *ngIf="userType == 'Super Admin' || userType == 'Clinic' || userType == 'Doctor'"
     >
-      <a class="nav-link"><i class="mdi mdi-account-multiple menu-icon mdi-24px"></i><span class="menu-title">Patients</span></a>
+      <a class="nav-link"><i class="mdi mdi-account-multiple menu-icon mdi-24px"></i><span class="menu-title">Seekers</span></a>
     </li>
 
     <li class="nav-item cp" routerLink="/my-establishments" routerLinkActive="active" *ngIf="created_by == 0 && userType == 'Doctor'">
@@ -32,7 +32,7 @@
       <a class="nav-link"><i class="mdi mdi-test-tube menu-icon mdi-24px"></i><span class="menu-title">Drug Catalog</span></a>
     </li>
 
-    <li class="nav-item cp" routerLink="/feedbacks" routerLinkActive="active"
+    <li  class="nav-item cp" routerLink="/feedbacks" routerLinkActive="active"
       *ngIf="userType == 'Super Admin' || userType == 'Patient' || userType == 'Doctor'">
       <a class="nav-link"><i class="mdi mdi-comment-text menu-icon mdi-24px"></i><span class="menu-title">Feedback</span></a>
     </li>
@@ -43,11 +43,11 @@
       <a class="nav-link"><i class="mdi mdi-bell menu-icon mdi-24px"></i><span class="menu-title">Notification</span></a>
     </li>
 
-    <li class="nav-item cp" routerLink="/orders" routerLinkActive="active">
+    <li style="display: none;" class="nav-item cp" routerLink="/orders" routerLinkActive="active">
       <a class="nav-link"><i class="mdi mdi-comment-text menu-icon mdi-24px"></i><span class="menu-title">Orders</span></a>
     </li>
 
-    <li class="nav-item cp" routerLink="/orders/payouts" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+    <li style="display: none;" class="nav-item cp" routerLink="/orders/payouts" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
       <a class="nav-link"><i class="mdi mdi-cash-refund menu-icon mdi-24px"></i><span class="menu-title">Payouts</span></a>
     </li>
 
@@ -136,7 +136,7 @@
       </div>
     </li>
 
-    <li class="nav-item cp" routerLink="/careers" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
+    <li style="display: none;" class="nav-item cp" routerLink="/careers" routerLinkActive="active" *ngIf="userType == 'Super Admin'">
       <a class="nav-link"><i class="mdi mdi-school menu-icon mdi-24px"></i><span class="menu-title">Careers</span></a>
     </li>
 

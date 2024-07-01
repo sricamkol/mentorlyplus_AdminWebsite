@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         const firstName = userData.first_name ? userData.first_name : this.commonService.getUserData('first_name');
         const lastName = userData.last_name ? userData.last_name : this.commonService.getUserData('last_name');
         this.token = (userData.token) ? userData.token : this.commonService.getUserData('token');
-        this.userName = title + ' ' + firstName + ' ' + lastName;
+        this.userName = (title ? title : '') + ' ' + firstName + ' ' + lastName;
         this.userImage = userData.profile_image_url ? userData.profile_image_url : this.commonService.getUserData('profile_image_url');
         this.userType = (userData.group_name) ? userData.group_name : this.commonService.getUserData('group_name');
         this.created_by = (userData.created_by) ? userData.created_by : this.commonService.getUserData('created_by');

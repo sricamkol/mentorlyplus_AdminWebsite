@@ -105,7 +105,7 @@
                         </div>
 
                         <div class="hide-in-list icon-block mr-auto">
-                          <a class="cp" *ngIf="userType == 'Doctor'"
+                          <a class="cp" *ngIf="userType == 'Doctor' || userType == 'Patient'"
                             (click)="confirmAppointment(appointment.appointment_id)"
                             matTooltip="Confirm Appointment" matTooltipClass="primary-tooltip"
                           >
@@ -172,10 +172,10 @@
                     <div *ngIf="userType!='Doctor'" class="hide-in-box address">
                       <h6>{{appointment.doctor_name}}</h6>
                     </div>
-
+<!-- paition -->
                     <div class="actions commonbox">
                       <div class="hide-in-box icon-block mr-auto">
-                        <a class="cp" *ngIf="userType == 'Doctor'"
+                        <a class="cp" *ngIf="userType == 'Doctor' || userType == 'Patient'"
                           (click)="confirmAppointment(appointment.appointment_id)"
                           matTooltip="Confirm Appointment" matTooltipClass="primary-tooltip"
                         >

@@ -674,13 +674,14 @@ padding-left: 0.5rem !important;
 }
 
 .btn-blue {
-  border-color: #002060;
+  /* border-color: #6016e9b0 ; */
   color: #fff;
-  background-color: #002060;
+  /* background-color: #6016e9 ; */
+  background: linear-gradient(to right, #90caf9, #6016e9b0 -19%) !important;
 }
 
 .btn-blue:active, .btn-blue:hover, .btn-blue:not(:disabled):not(.disabled).active, .btn-blue:not(:disabled):not(.disabled):active {
-  border-color: #002060;
+
   color: #fff;
-  background-color: #002060;
+  background: linear-gradient(to right, #90caf9, #6016e9b0 -19%) !important;
 }
